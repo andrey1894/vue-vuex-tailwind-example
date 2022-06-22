@@ -2,7 +2,7 @@
   <div class="min-h-screen flex flex-col">
     <NavbarContainer :user="user" @logout="logout" />
     <main class="flex flex-col flex-1">
-      <router-view @changeAuth="initCurrentUser"></router-view>
+      <router-view @changeAuth="initCurrentUser" :user="user"></router-view>
     </main>
     <FooterContainer />
   </div>

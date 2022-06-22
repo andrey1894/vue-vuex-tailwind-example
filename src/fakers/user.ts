@@ -20,9 +20,14 @@ export const parseToken = (
   }
 };
 
-export const getFakerUsers = async (search: string): Promise<IUserInDto[]> => {
-  const mockedData = await import("@/assets/mocked_data.json");
+export const getAllFakerUsers = async (): Promise<IUserInDto[]> => {
+  const mockedData = await import("@/assets/mocked_user_data.json");
   const users = Array.from(mockedData) as IUserInDto[];
+  return users;
+};
+
+export const getFakerUsers = async (search: string): Promise<IUserInDto[]> => {
+  const users = await getAllFakerUsers();
 
   return users.filter(
     (user) =>
@@ -43,7 +48,7 @@ export const getFakeCurrentUser = async (
     return Promise.reject();
   }
 
-  const mockedData = await import("@/assets/mocked_data.json");
+  const mockedData = await import("@/assets/mocked_user_data.json");
   const users = Array.from(mockedData) as IUserInDto[];
 
   const user = users.find(
@@ -60,7 +65,7 @@ export const getFakeUserByAuth = async (
   if (password !== PASSWORD) {
     return null;
   }
-  const mockedData = await import("@/assets/mocked_data.json");
+  const mockedData = await import("@/assets/mocked_user_data.json");
   const users = Array.from(mockedData) as IUserInDto[];
 
   return users.find(

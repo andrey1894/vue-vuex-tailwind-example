@@ -1,5 +1,5 @@
 export interface IUserInDto {
-  id: string;
+  id: number;
   first_name: string;
   last_name: string;
   active: string;
@@ -11,7 +11,7 @@ export interface IUserInDto {
 }
 
 export interface IUserOutDto {
-  id: string;
+  id: number;
   firstName: string;
   lastName: string;
   active: boolean;
