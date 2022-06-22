@@ -35,6 +35,7 @@
         >
           <button
             :disabled="page === 1"
+            @click="$emit('changePage', page - 1)"
             :class="{
               'text-gray-300': page === 1,
               'text-gray-500 hover:bg-gray-50': page !== 1,
@@ -62,6 +63,7 @@
             v-for="item in paginationNumbers"
             :key="item"
             :disabled="item === page || item === -1"
+            @click="$emit('changePage', item)"
             :class="{
               'z-10 bg-indigo-50 border-indigo-500 text-indigo-600':
                 item === page,
@@ -74,7 +76,8 @@
             {{ item !== -1 ? item : "..." }}
           </button>
           <button
-            :disabled="item === lastPage"
+            :disabled="page === lastPage"
+            @click="$emit('changePage', page + 1)"
             :class="{
               'text-gray-300': page === lastPage,
               'text-gray-500 hover:bg-gray-50': page !== lastPage,
@@ -122,6 +125,7 @@ export default defineComponent({
       default: 10,
     },
   },
+  emits: ["changePage"],
   data() {
     return {
       largeSize: 11,

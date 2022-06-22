@@ -1,38 +1,32 @@
 <template>
-  <div class="min-h-full">
-    <header class="bg-white shadow">
-      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-      </div>
-    </header>
-    <main>
-      <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <!-- Replace with your content -->
-        <div class="px-4 py-6 sm:px-0">
-          <div
-            class="border-4 border-dashed border-gray-200 rounded-lg h-96 overflow-auto"
-          >
-            <PostList :posts="posts" />
-          </div>
-
-          <ListPagination :page="page" :count="count" :limit="limit" />
-        </div>
-        <!-- /End replace -->
-      </div>
-    </main>
-  </div>
+  <PageGrid title="Dashboard">
+    <template v-slot:content>
+      <PostList :posts="posts" />
+    </template>
+    <template v-slot:footer>
+      <ListPagination
+        :page="page"
+        :count="count"
+        :limit="limit"
+        @changePage="changePage"
+      />
+    </template>
+  </PageGrid>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import PostList from "@/components/post/PostList.vue";
 import ListPagination from "@/components/shared/ListPagination.vue";
+import PageGrid from "@/components/shared/PageGrid.vue";
+
 import { getPosts } from "@/api";
 import { IPostOutDto } from "@/models";
 
 export default defineComponent({
   name: "HomePage",
   components: {
+    PageGrid,
     PostList,
     ListPagination,
   },
@@ -45,16 +39,24 @@ export default defineComponent({
     };
   },
   async mounted() {
-    try {
-      const res = await getPosts(this.page, this.limit);
-      this.posts = res.data;
-      this.page = res.page;
-      this.count = res.count;
-      this.limit = res.limit;
-      console.log("res", res);
-    } catch (error) {
-      console.log("e", error);
-    }
+    await this.getPosts(this.page, this.limit);
+  },
+  methods: {
+    async changePage(page: number): Promise<void> {
+      await this.getPosts(page, this.limit);
+    },
+    async getPosts(page: number, limit: number): Promise<void> {
+      try {
+        const res = await getPosts(page, limit);
+        this.posts = res.data;
+        this.page = res.page;
+        this.count = res.count;
+        this.limit = res.limit;
+        console.log("res", res);
+      } catch (error) {
+        console.log("e", error);
+      }
+    },
   },
 });
 </script>

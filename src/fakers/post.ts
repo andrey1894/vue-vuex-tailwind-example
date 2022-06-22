@@ -14,7 +14,7 @@ export const getFakerPosts = async (
 ): Promise<IPaginationList<IPostInDto[]>> => {
   const users = await getAllFakerUsers();
   const postResults = await getAllFakerPosts();
-  const posts = postResults.slice((page - 1) * limit, limit);
+  const posts = postResults.slice((page - 1) * limit, page * limit);
 
   const data = posts.map((post) => ({
     ...post,
