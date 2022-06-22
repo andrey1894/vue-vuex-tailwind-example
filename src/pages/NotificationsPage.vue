@@ -1,0 +1,20 @@
+<template>
+  <PageGrid title="Notifications">
+    <template v-slot:content></template>
+  </PageGrid>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+
+import PageGrid from "@/components/shared/PageGrid.vue";
+
+export default defineComponent({
+  name: "NotificationsPage",
+  components: {
+    PageGrid,
+  },
+});
+</script>
+
+<style scoped lang="scss"></style>

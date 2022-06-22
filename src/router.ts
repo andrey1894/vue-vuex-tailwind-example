@@ -24,6 +24,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/pages/SettingsPage.vue"),
   },
   {
+    path: "/notifications",
+    name: "Notifications",
+    component: () => import("@/pages/NotificationsPage.vue"),
+  },
+  {
     path: "/:pathMatch(.*)*",
     redirect: "/",
   },
