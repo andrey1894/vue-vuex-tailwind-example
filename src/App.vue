@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen flex flex-col">
-    <NavbarContainer :user="user" @logout="logout" />
-    <main class="flex flex-col flex-1">
+  <div class="flex flex-col h-screen overflow-hidden">
+    <NavbarContainer :user="$store.state.user.user" @logout="logout" />
+    <div class="flex flex-col flex-1 overflow-hidden">
       <router-view @changeAuth="initCurrentUser" :user="user"></router-view>
-    </main>
+    </div>
     <FooterContainer />
   </div>
 </template>
@@ -15,7 +15,6 @@ import NavbarContainer from "@/components/navbar/NavbarContainer.vue";
 import FooterContainer from "@/components/FooterContainer.vue";
 
 import { isLoginPage, redirectToLogin, redirectToHome } from "@/router";
-import { getCurrentUser, logout } from "@/api";
 import { IUserOutDto } from "@/models";
 import { clearToken } from "@/core";
 
@@ -35,24 +34,19 @@ export default defineComponent({
   },
   methods: {
     async initCurrentUser() {
-      try {
-        this.user = await getCurrentUser();
-        if (isLoginPage()) {
-          redirectToHome();
-        }
-      } catch {
+      const isLogin = await this.$store.dispatch("user/initCurrentUser");
+      if (isLoginPage() && isLogin) {
+        redirectToHome();
+      } else if (!isLoginPage() && !isLogin) {
         redirectToLogin();
       }
     },
 
     async logout() {
-      try {
-        await logout();
+      const isSuccess = await this.$store.dispatch("user/logout");
+      if (isSuccess) {
         clearToken();
-        this.user = null;
         redirectToLogin();
-      } catch {
-        console.log("err");
       }
     },
   },

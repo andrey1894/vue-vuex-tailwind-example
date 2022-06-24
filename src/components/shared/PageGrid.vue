@@ -1,17 +1,17 @@
 <template>
-  <div></div>
-  <div class="min-h-full">
+  <div class="flex flex-col flex-1 overflow-hidden">
     <header class="bg-white shadow">
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         <h1 class="text-3xl font-bold text-gray-900">{{ title }}</h1>
       </div>
     </header>
-    <main>
-      <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <!-- Replace with your content -->
-        <div class="px-4 py-6 sm:px-0">
+    <main class="flex flex-col flex-1 overflow-hidden">
+      <div
+        class="flex flex-col flex-1 overflow-hidden max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"
+      >
+        <div class="flex flex-col flex-1 overflow-hidden px-4 py-6 sm:px-0">
           <div
-            class="border-4 border-dashed border-gray-200 rounded-lg h-96 overflow-auto"
+            class="flex flex-col flex-1 overflow-auto border-4 border-dashed border-gray-200 rounded-lg"
           >
             <slot name="content"></slot>
           </div>
@@ -20,7 +20,6 @@
             <slot name="footer"> </slot>
           </footer>
         </div>
-        <!-- /End replace -->
       </div>
     </main>
   </div>
