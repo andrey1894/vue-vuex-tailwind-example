@@ -26,32 +26,41 @@
           <div class="ml-4 flex items-center md:ml-6">
             <router-link
               to="/notifications"
-              class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+              class="relative p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
             >
               <span class="sr-only">View notifications</span>
               <!-- Heroicon name: outline/bell -->
-              <BellIcon class="w-6" />
+              <BellIcon
+                class="w-6"
+                :class="{ 'animate-swing': newNotificationsCount }"
+              />
+              <sup
+                v-show="$store.getters['ui/newNotifications'].length"
+                class="absolute top-0 right-0"
+              >
+                {{ newNotificationsCount }}
+              </sup>
             </router-link>
 
             <!-- Profile dropdown -->
             <div class="ml-3 relative" @click="showMenu = !showMenu">
               <div>
                 <button
-                  v-if="user"
+                  v-if="$store.state.user.user"
                   type="button"
                   class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                  id="user-menu-button"
+                  id="$store.state.user.user-menu-button"
                   aria-expanded="false"
                   aria-haspopup="true"
                 >
-                  <span class="sr-only">Open user menu</span>
+                  <span class="sr-only">Open $store.state.user.user menu</span>
                   <UserLogo
                     :size="10"
-                    :online="user.active"
-                    :logo="user.avatar"
-                    :first-name="user.firstName"
-                    :last-name="user.lastName"
-                    :membership="user.membership"
+                    :online="$store.state.user.user.active"
+                    :logo="$store.state.user.user.avatar"
+                    :first-name="$store.state.user.user.firstName"
+                    :last-name="$store.state.user.user.lastName"
+                    :membership="$store.state.user.user.membership"
                   />
                 </button>
               </div>
@@ -61,7 +70,7 @@
                 class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                 role="menu"
                 aria-orientation="vertical"
-                aria-labelledby="user-menu-button"
+                aria-labelledby="$store.state.user.user-menu-button"
                 tabindex="-1"
               >
                 <router-link
@@ -69,7 +78,7 @@
                   class="block px-4 py-2 text-sm text-gray-700"
                   role="menuitem"
                   tabindex="-1"
-                  id="user-menu-item-0"
+                  id="$store.state.user.user-menu-item-0"
                   >Your Profile</router-link
                 >
 
@@ -78,7 +87,7 @@
                   class="block px-4 py-2 text-sm text-gray-700"
                   role="menuitem"
                   tabindex="-1"
-                  id="user-menu-item-1"
+                  id="$store.state.user.user-menu-item-1"
                   >Settings</router-link
                 >
 
@@ -87,7 +96,7 @@
                   class="block px-4 py-2 text-sm text-gray-700"
                   role="menuitem"
                   tabindex="-1"
-                  id="user-menu-item-2"
+                  id="$store.state.user.user-menu-item-2"
                 >
                   Sign out
                 </button>
@@ -117,9 +126,6 @@ export default defineComponent({
     NavbarSearch,
     NavbarSearchResult,
   },
-  props: {
-    user: Object,
-  },
   emits: ["logout"],
   data() {
     return {
@@ -127,6 +133,11 @@ export default defineComponent({
       searchText: "",
       showMenu: false,
     };
+  },
+  computed: {
+    newNotificationsCount() {
+      return this.$store.getters["ui/newNotifications"].length;
+    },
   },
   methods: {
     async searchUsers(searchText: string) {

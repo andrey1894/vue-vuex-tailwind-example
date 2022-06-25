@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-screen overflow-hidden">
-    <NavbarContainer :user="$store.state.user.user" @logout="logout" />
+    <NavbarContainer @logout="logout" />
     <div class="flex flex-col flex-1 overflow-hidden">
       <router-view @changeAuth="initCurrentUser" :user="user"></router-view>
     </div>

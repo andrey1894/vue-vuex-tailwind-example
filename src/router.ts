@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 import { getToken } from "@/core";
+import store from "@/store";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -46,6 +47,13 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+});
+
+router.afterEach((to) => {
+  console.log(to.name);
+  store.dispatch("ui/addNotification", {
+    message: `Page: ${String(to.name)}`,
+  });
 });
 
 const isLoginPage = (): boolean => {
