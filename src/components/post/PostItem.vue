@@ -5,8 +5,8 @@
     </header>
     <article>{{ post.body }}</article>
     <footer class="flex items-center justify-between">
-      <a
-        href="#"
+      <router-link
+        :to="{ name: 'User', params: { id: post.user.id } }"
         class="user -mx-5 px-5 py-2 flex items-center gap-2 hover:bg-gray-200"
       >
         <UserLogo
@@ -21,7 +21,7 @@
           <span class="font-bold text-gray-900">{{ fullName }}</span>
           <span class="font-medium text-gray-500">{{ post.user.id }}</span>
         </div>
-      </a>
+      </router-link>
       <time class="text-gray-500" :datetime="post.date">{{ createdAt }}</time>
     </footer>
   </section>

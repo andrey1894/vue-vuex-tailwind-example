@@ -58,6 +58,15 @@ export const getFakeCurrentUser = async (
   return user || Promise.reject();
 };
 
+export const getUser = async (id: number): Promise<IUserInDto> => {
+  const mockedData = await import("@/assets/mocked_user_data.json");
+  const users = Array.from(mockedData) as IUserInDto[];
+
+  const user = users.find((u) => u.id === id);
+
+  return user || Promise.reject();
+};
+
 export const getFakeUserByAuth = async (
   email: string,
   password: string

@@ -4,6 +4,7 @@ import {
   getFakeCurrentUser,
   getFakerUsers,
   getFakeUserByAuth,
+  getUser,
 } from "@/fakers";
 import {
   EUserMembership,
@@ -29,8 +30,12 @@ export const logout = async (): Promise<void> => {
 
 export const getCurrentUser = async (): Promise<IUserOutDto> => {
   const token = getToken();
-  console.log("token", token);
   const user = await getFakeCurrentUser(token);
+  return parseUserDto(user);
+};
+
+export const getUserById = async (id: number): Promise<IUserOutDto> => {
+  const user = await getUser(id);
   return parseUserDto(user);
 };
 
