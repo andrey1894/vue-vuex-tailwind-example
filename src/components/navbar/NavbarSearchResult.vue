@@ -1,9 +1,9 @@
 <template>
   <div class="absolute z-10 mt-3 w-full">
     <div
-      class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white overflow-hidden flex flex-row"
+      class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white overflow-hidden flex flex-row search-result-wrapper"
     >
-      <div class="relative flex flex-col px-5 py-6 flex-1">
+      <div class="relative flex flex-col px-5 py-6 flex-1 overflow-auto">
         <template v-for="(users, key) in usersGroup" :key="key">
           <div>
             <span class="text-slate-500 font-medium text-xs">
@@ -43,75 +43,7 @@
         </template>
       </div>
 
-      <div class="px-16 py-10 flex-1 flex flex-col border-l-2">
-        <template v-if="selectedUser">
-          <div class="border-b-2 py-4 flex flex-col items-center">
-            <div class="h-16">
-              <UserLogo
-                :size="16"
-                :online="selectedUser.active"
-                :logo="selectedUser.avatar"
-                :first-name="selectedUser.firstName"
-                :last-name="selectedUser.lastName"
-                :membership="selectedUser.membership"
-              />
-            </div>
-            <span class="font-bold text-gray-900">
-              {{ selectedUser.firstName }}
-            </span>
-            <span class="font-medium text-gray-500">{{ selectedUser.id }}</span>
-          </div>
-          <div class="flex flex-col py-4 gap-2">
-            <div class="flex flex-row flex-1">
-              <span class="basis-1/4 font-medium">Membership</span>
-              <span class="basis-1/2 font-bold">
-                {{ selectedUser.membership }}
-              </span>
-            </div>
-            <div class="flex flex-row flex-1">
-              <span class="basis-1/4 font-medium">Phone</span>
-              <span class="basis-1/2 font-medium text-gray-400">
-                {{ selectedUser.phone }}
-              </span>
-            </div>
-            <div class="flex flex-row flex-1">
-              <span class="basis-1/4 font-medium">Email</span>
-              <a
-                :href="'mailto:' + selectedUser.emailAddress"
-                class="basis-1/2 font-bold text-cyan-500"
-              >
-                {{ selectedUser.emailAddress }}
-              </a>
-            </div>
-          </div>
-          <div class="flex items-center mt-8 justify-around gap-2">
-            <button
-              type="button"
-              class="p-3 bg-gray-100 flex-shrink-0 rounded-full text-gray-400 hover:bg-gray-200"
-            >
-              <ChatIcon class="h-8" />
-            </button>
-            <button
-              type="button"
-              class="p-3 bg-gray-100 flex-shrink-0 rounded-full text-gray-400 hover:bg-gray-200"
-            >
-              <PhoneIcon class="h-8" />
-            </button>
-            <button
-              type="button"
-              class="p-3 bg-gray-100 flex-shrink-0 rounded-full text-gray-400 hover:bg-gray-200"
-            >
-              <ChatAltIcon class="h-8" />
-            </button>
-            <button
-              type="button"
-              class="p-3 bg-gray-100 flex-shrink-0 rounded-full text-gray-400 hover:bg-gray-200"
-            >
-              <LocationMarkerIcon class="h-8" />
-            </button>
-          </div>
-        </template>
-      </div>
+      <UserInfo :user="selectedUser" />
     </div>
   </div>
 </template>
@@ -119,14 +51,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { ChevronRightIcon } from "@heroicons/vue/solid";
-import {
-  ChatIcon,
-  PhoneIcon,
-  ChatAltIcon,
-  LocationMarkerIcon,
-} from "@heroicons/vue/outline";
 
 import UserLogo from "@/components/shared/UserLogo.vue";
+import UserInfo from "@/components/user/UserInfo.vue";
 import { IUserGroup, IUserOutDto } from "@/models";
 
 export default defineComponent({
@@ -134,10 +61,7 @@ export default defineComponent({
   components: {
     UserLogo,
     ChevronRightIcon,
-    ChatIcon,
-    PhoneIcon,
-    ChatAltIcon,
-    LocationMarkerIcon,
+    UserInfo,
   },
   props: {
     users: Array,
@@ -162,4 +86,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.search-result-wrapper {
+  max-height: 80vh;
+}
+</style>

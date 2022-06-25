@@ -7,7 +7,7 @@
     </header>
     <main class="flex flex-col flex-1 overflow-hidden">
       <div
-        class="flex flex-col flex-1 overflow-hidden max-w-7xl mx-auto py-6 sm:px-6 lg:px-8"
+        class="flex flex-col flex-1 overflow-hidden max-w-7xl py-6 sm:px-6 lg:px-8"
       >
         <div class="flex flex-col flex-1 overflow-hidden px-4 py-6 sm:px-0">
           <div
